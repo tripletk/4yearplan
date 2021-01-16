@@ -53,6 +53,7 @@
                                 user
                             }) => {
                                 return user.getIdToken().then((idToken) => {
+                                    console.log(idToken);
                                     return fetch("/sessionLogin", {
                                         method: "POST",
                                         headers: {
@@ -70,6 +71,7 @@
                                 return firebase.auth().signOut();
                             })
                             .then(() => {
+                                
                                 window.location.assign("/main");
                             });
                         return false;

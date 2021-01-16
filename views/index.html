@@ -5,15 +5,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- Our JS-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
+    <link href="./css/main.css" rel="stylesheet"/>
+    <script src="./js/main.js" async> </script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 </head>
 
 <body>
     <main>
-        <h1>Home page</h1>
-        <p>This page is public</p>
-        <a href="/main">start now</a>
-        <a href="/login">login</a>
+        <!-- Index/Homepage-->
+    <div class = 'whitebox'> 
+        <div class = 'whiterect'> </div>
+        <div class = 'v1_10'></div>
+        <div class = 'img1'> </div>
+        <div class = 'stampimg'> 
+        <div class = 'text1'> <strong>  4 year planner </strong> </div>
+        <div class = 'text2'> Organize your <br> college plans <br> ahead of time </div>
+        <button class = 'start' onclick = 'return moveSignup()'> Start Now </button>
+        <button class='signin' onclick="return moveSignin()"> Sign In </button>
+
+    </div>
+    <!--Sign Up Pop Up Modal -->
+    <div class="modalBG"> 
+        <div class="modalCONT">
+            <div class='signupTxt'> <strong> Let's get to know you better! </strong> </div>
+            <form id="signup" action="submit"> 
+                <input type="text" name = "name" placeholder = "Name">
+                <input type="email" name = "email" placeholder = "Email">
+                <input type="text" name = "userN" placeholder = "Username">
+                <input type="password" name = "pw" placeholder = "Password">
+                <input type="text" name = "college" placeholder = "College Name"> 
+
+                <a href=""> <button class = "submit"> Sign Up </button> </a>   
+            </form>
+            <div class="close" onclick = 'return xSignup()'> + </div>
+        </div>
+    </div>
+
+    <!--Sign In Pop Up Modal -->
+    <div class = "signBG">
+        <div class = "signCONT">
+            <div class = "signinTxt"> <strong> sign in to your account! </strong> </div>
+            <form id="login" action="submit">
+                <input type="text" name = "loginuser" placeholder = "username">
+                <input type="text" name = "loginpw" placeholder = "password">
+
+                <a href=" "> <button class = "submit"> Sign In </button></a>
+            </form>
+        </div>
+        <div class = "closeIn" onclick = "return xSignin()"> + </div>
+    </div>
+        <!-- <a href="/main">start now</a>
+        <a href="/login">login</a> -->
+        <script>
+            window.addEventListener("DOMContentLoaded", () => {
+                // Your web app's Firebase configuration
+                const firebaseConfig = {
+                    apiKey: "AIzaSyAmB6NpA6m3m-p_qe-h4uuHeaYJRpta1g4",
+                    authDomain: "fouryearplan-webapp.firebaseapp.com",
+                    projectId: "fouryearplan-webapp",
+                    storageBucket: "fouryearplan-webapp.appspot.com",
+                    messagingSenderId: "132199798821",
+                    appId: "1:132199798821:web:a157f6282f901ae1ee47cc"
+                };
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+
+                document
+                    .getElementById("login")
+                    .addEventListener("submit", (event) => {
+                        event.preventDefault();
+                        const login = event.target.loginuser.value;
+                        const password = event.target.loginpw.value;
+
+                        firebase
+                            .auth()
+                            .signInWithEmailAndPassword(login, password)
+                            .then(({
+                                user
+                            }) => {
+                                return user.getIdToken().then((idToken) => {
+                                    console.log(idToken);
+                                    return fetch("/sessionLogin", {
+                                        method: "POST",
+                                        headers: {
+                                            Accept: "application/json",
+                                            "Content-Type": "application/json",
+                                            "CSRF-Token": Cookies.get("XSRF-TOKEN"),
+                                        },
+                                        body: JSON.stringify({
+                                            idToken
+                                        }),
+                                    });
+                                });
+                            })
+                            .then(() => {
+                                return firebase.auth().signOut();
+                            })
+                            .then(() => {
+                                
+                                window.location.assign("/main");
+                            });
+                        return false;
+                    });
+
+                    document
+                .getElementById("signup")
+                .addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    const login = event.target.email.value;
+                    const password = event.target.pw.value;
+
+                    firebase
+                        .auth()
+                        .createUserWithEmailAndPassword(login, password)
+                        .then(({
+                            user
+                        }) => {
+                            return user.getIdToken().then((idToken) => {
+                                return fetch("/sessionLogin", {
+                                    method: "POST",
+                                    headers: {
+                                        Accept: "application/json",
+                                        "Content-Type": "application/json",
+                                        "CSRF-Token": Cookies.get("XSRF-TOKEN"),
+                                    },
+                                    body: JSON.stringify({
+                                        idToken
+                                    }),
+                                });
+                            });
+                        })
+                        .then(() => {
+                            return firebase.auth().signOut();
+                        })
+                        .then(() => {
+                            window.location.assign("/main");
+                        });
+                    return false;
+                });
+            });
+        </script>
     </main>
 </body>
 

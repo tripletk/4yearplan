@@ -33,6 +33,7 @@ app.all("*", (req, res, next) => {
 
 app.get("/login", function (req, res) {
   res.render("login.html");
+  
 });
 
 app.get("/signup", function (req, res) {
@@ -51,6 +52,7 @@ app.get("/main", function (req, res) {
     .catch((error) => {
       res.redirect("/login");
     });
+
 });
 
 app.get("/", function (req, res) {
@@ -86,7 +88,8 @@ app.post("/sessionLogin", (req, res) => {
 
 app.get("/sessionLogout", (req, res) => {
   res.clearCookie("session");
-  res.redirect("/login");
+  res.redirect("/");
+  //res.render("index.html");
 });
 
 app.listen(PORT, () => {
