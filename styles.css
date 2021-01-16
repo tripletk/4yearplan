@@ -51,7 +51,7 @@ body {
     overflow-x: hidden;
 }
 
-#classes {
+#classlist {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,6 +71,7 @@ body {
     font-size: 2.4vw;
     font-weight: 800;
     text-align: center;
+    user-select: none;
 }
 
 .smallbutton {
@@ -98,7 +99,7 @@ body {
     width: 49%;
     border-bottom: 7px solid #FF9F1C;
     user-select: none;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 
@@ -121,21 +122,40 @@ body {
     background-color: white;
     border: 3px solid black;
     border-radius: 30px;
-    margin: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 20px;
     font-size: 1.3vw;
     font-weight: 600;
     user-select: none;
 }
 
 .dropzone {
+    display: flex;
     height: 100%;
     width: 23%;
     background-color: #C4C4C4;
+    border-radius: 5px;
+}
+
+.dropstate {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-color: #ffbd60;
+    border-radius: 5px;
 }
 
 .dragzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 20vh;
     width: 80%;
-    background-color: #C4C4C4;
-    margin-bottom: 30px;
+    opacity: 50%;
+    background-color: #ffbd60;
+    margin-top: 30px;
+    border-radius: 5px;
+    font-size: 150%;
+    user-select: none;
 }
