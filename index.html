@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
+    <link href="./hi.css" rel="stylesheet" />
+    <link href="./main.css" rel="stylesheet" />
+    <script src="./main.js" async> </script>
+
+    <title>4 Year Planner</title>
+</head>
+
+
+<body>
+    <!-- Index/Homepage-->
+    <div class = 'whitebox'> 
+        <div class = 'whiterect'> </div>
+        <div class = 'v1_10'></div>
+        <div class = 'img1'> </div>
+        <div class = 'stampimg'> 
+        <div class = 'text1'> <strong>  4 year planner </strong> </div>
+        <div class = 'text2'> Organize your <br> college plans <br> ahead of time </div>
+        <button class = 'start' onclick = 'return moveSignup()'> Start Now </button>
+        <button class='signin' onclick="return moveSignin()"> Sign In </button>
+
+    </div>
+
+    <!--Sign Up Pop Up Modal -->
+    <div class="modalBG"> 
+        <div class="modalCONT">
+            <div class='signupTxt'> <strong> Let's get to know you better! </strong> </div>
+            <form action="submit"> 
+                <input type="text" name = "name" placeholder = "Name">
+                <input type="email" name = "email" placeholder = "Email">
+                <input type="text" name = "userN" placeholder = "Username">
+                <input type="password" name = "pw" placeholder = "Password">
+                <input type="text" name = "college" placeholder = "College Name"> 
+
+                <a href=""> <button class = "submit"> Sign Up </button> </a>   
+            </form>
+            <div class="close" onclick = 'return xSignup()'> + </div>
+        </div>
+    </div>
+
+    <!--Sign In Pop Up Modal -->
+    <div class = "signBG">
+        <div class = "signCONT">
+            <div class = "signinTxt"> <strong> sign in to your account! </strong> </div>
+            <form action="submit">
+                <input type="text" name = "loginuser" placeholder = "username">
+                <input type="text" name = "loginpw" placeholder = "password">
+
+                <a href=" "> <button class = "submit"> Sign In </button></a>
+            </form>
+        </div>
+        <div class = "closeIn" onclick = "return xSignin()"> + </div>
+    </div>
+
+</body>
+</html>
