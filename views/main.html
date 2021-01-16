@@ -10,27 +10,18 @@
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
 
 
-    <script src="../static/js/auth.js"></script>
+    <!-- <script type="module" src="js/auth.js"></script> -->
 </head>
 
 <body>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAmB6NpA6m3m-p_qe-h4uuHeaYJRpta1g4",
-            authDomain: "fouryearplan-webapp.firebaseapp.com",
-            projectId: "fouryearplan-webapp",
-            storageBucket: "fouryearplan-webapp.appspot.com",
-            messagingSenderId: "132199798821",
-            appId: "1:132199798821:web:a157f6282f901ae1ee47cc"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
-
-        firebase.auth().onAuthStateChanged(user => {
-            console.log(user); // this user object has uid as well as other important info
-        })
+        // userSessionData is JSON with loggedin user's data. From there use userSessionData.uid to identify user
+        if(sessionStorage.getItem('fouryearplanuser') === null) {
+            console.log(sessionStorage.fouryearplanuser);
+        }
+        console.log(sessionStorage.fouryearplanuser);
+        let userSessionData = JSON.parse(sessionStorage.fouryearplanuser);
+        console.log(userSessionData);
     </script>
     <!-- This button will add course to user's courses -->
     <button onclick="addCourse()">Add Course</button>

@@ -90,7 +90,13 @@
                                 user
                             }) => {
                                 return user.getIdToken().then((idToken) => {
-                                    console.log(idToken);
+                                    // Bad Code (A Hack)
+                                    console.log(user);
+                                    const fouryearplanuser = JSON.stringify(user);
+                                    sessionStorage.setItem('fouryearplanuser', fouryearplanuser);
+                                    console.log(sessionStorage.fouryearplanuser);
+                                    setTimeout(5000)
+                                    // End of bad code
                                     return fetch("/sessionLogin", {
                                         method: "POST",
                                         headers: {

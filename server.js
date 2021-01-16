@@ -3,6 +3,10 @@ const csrf = require("csurf");
 const bodyParser = require("body-parser");
 const express = require("express");
 
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+var firebase = require("firebase/app");
+require("firebase/auth");
 const admin = require("firebase-admin");
 
 const serviceAccount = require("./serviceAccountKey.json");
@@ -20,7 +24,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.engine("html", require("ejs").renderFile);
-app.use(express.static("static"));
+app.use(express.static('static'));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -33,7 +37,7 @@ app.all("*", (req, res, next) => {
 
 app.get("/login", function (req, res) {
   res.render("login.html");
-  
+
 });
 
 app.get("/signup", function (req, res) {
@@ -94,4 +98,20 @@ app.get("/sessionLogout", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
+  const firebaseConfig = {
+    apiKey: "AIzaSyAmB6NpA6m3m-p_qe-h4uuHeaYJRpta1g4",
+    authDomain: "fouryearplan-webapp.firebaseapp.com",
+    projectId: "fouryearplan-webapp",
+    storageBucket: "fouryearplan-webapp.appspot.com",
+    messagingSenderId: "132199798821",
+    appId: "1:132199798821:web:a157f6282f901ae1ee47cc"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  //firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+  firebase.auth().onAuthStateChanged(user => {
+    if (!user) return;
+    console.log(user);
+  });
 });
