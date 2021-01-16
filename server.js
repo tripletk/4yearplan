@@ -1,36 +1,94 @@
-const http = require('http');
-const express = require('express');
-const path = require('path');
+const cookieParser = require("cookie-parser");
+const csrf = require("csurf");
+const bodyParser = require("body-parser");
+const express = require("express");
+
+const admin = require("firebase-admin");
+
+const serviceAccount = require("./serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  //databaseURL: "https://server-auth-41acc.firebaseio.com",
+});
+
+const csrfMiddleware = csrf({
+  cookie: true
+});
+
+const PORT = process.env.PORT || 3000;
 const app = express();
 
-// Firebase App (the core Firebase SDK) is always required and
-// must be listed before other Firebase SDKs
-var firebase = require("firebase/app");
+app.engine("html", require("ejs").renderFile);
+app.use(express.static("static"));
 
-// Add the Firebase products that you want to use
-require("firebase/auth");
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(csrfMiddleware);
 
-var firebaseConfig = {
-    apiKey: "AIzaSyAmB6NpA6m3m-p_qe-h4uuHeaYJRpta1g4",
-    authDomain: "fouryearplan-webapp.firebaseapp.com",
-    projectId: "fouryearplan-webapp",
-    storageBucket: "fouryearplan-webapp.appspot.com",
-    messagingSenderId: "132199798821",
-    appId: "1:132199798821:web:a157f6282f901ae1ee47cc"
-  };
-// Initialize Firebase
-firebase.initializeApp({ firebaseConfig });
-
-
-
-app.use(express.json());
-app.use(express.static("express"));
-// default URL for website
-app.use('/', function(req,res){
-    res.sendFile(path.join(__dirname+'/pages/index.html'));
-    //__dirname : It will resolve to your project folder.
+app.all("*", (req, res, next) => {
+  res.cookie("XSRF-TOKEN", req.csrfToken());
+  next();
 });
-const server = http.createServer(app);
-const port = 3000;
-server.listen(port);
-console.debug('Server listening on port ' + port);
+
+app.get("/login", function (req, res) {
+  res.render("login.html");
+});
+
+app.get("/signup", function (req, res) {
+  res.render("signup.html");
+});
+
+app.get("/main", function (req, res) {
+  const sessionCookie = req.cookies.session || "";
+
+  admin
+    .auth()
+    .verifySessionCookie(sessionCookie, true /** checkRevoked */ )
+    .then(() => {
+      res.render("main.html");
+    })
+    .catch((error) => {
+      res.redirect("/login");
+    });
+});
+
+app.get("/", function (req, res) {
+  res.render("index.html");
+});
+
+app.post("/sessionLogin", (req, res) => {
+  const idToken = req.body.idToken.toString();
+
+  const expiresIn = 60 * 60 * 24 * 5 * 1000;
+
+  admin
+    .auth()
+    .createSessionCookie(idToken, {
+      expiresIn
+    })
+    .then(
+      (sessionCookie) => {
+        const options = {
+          maxAge: expiresIn,
+          httpOnly: true
+        };
+        res.cookie("session", sessionCookie, options);
+        res.end(JSON.stringify({
+          status: "success"
+        }));
+      },
+      (error) => {
+        res.status(401).send("UNAUTHORIZED REQUEST!");
+      }
+    );
+});
+
+app.get("/sessionLogout", (req, res) => {
+  res.clearCookie("session");
+  res.redirect("/login");
+});
+
+app.listen(PORT, () => {
+  console.log(`Listening on http://localhost:${PORT}`);
+});

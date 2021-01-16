@@ -18,8 +18,12 @@
   },
   "homepage": "https://github.com/tripletk/4yearplan#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "csurf": "^1.11.0",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "firebase": "^8.2.3",
-    "firebaseui": "^4.7.1"
+    "firebase-admin": "^9.4.2"
   }
 }
