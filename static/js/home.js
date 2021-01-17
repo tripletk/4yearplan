@@ -12,7 +12,7 @@ class course {
 }
 
 let seasons = document.getElementsByClassName("season");
-courses = ["CS 1", "CS 2", "CS 3", "CS 4", "MATH 1", "MATH 2", "MATH 3", "MATH 4", "PHYS 1", "PHYS 2", "PHYS 3", "PHYS 4"];
+var courses = ["CS 1", "CS 2", "CS 3", "CS 4", "MATH 1", "MATH 2", "MATH 3", "MATH 4", "PHYS 1", "PHYS 2", "PHYS 3", "PHYS 4"];
 plan = [
     ["!", "!", "!", "!"],
     ["!", "!", "!", "!"],

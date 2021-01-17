@@ -45,3 +45,76 @@ function sharePlan() {
 function enterReqs() {
     console.log("Entering Reqs");
 }
+
+function setUserCourses() {
+    const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
+
+    // First ask server to retrieve user's courses
+    fetch("/getUserCourses", {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "CSRF-Token": Cookies.get(
+                "XSRF-TOKEN"),
+            'uid': userUID
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        courses = data.courses;
+        console.log(courses);
+
+        changeSideBarCourses();
+        $("div.dragzone").draggable({
+            appendTo: "body",
+            containment: "body",
+            scroll: false,
+            opacity: 1.5,
+            helper: function (event) {
+                return $(event.target).clone().css({
+                    width: $(event.target).width()
+                });
+            }
+        });
+        $("div.dropzone").droppable({
+            drop: function (event, ui) {
+                $(this)
+                    .find(".dropstate")
+                    .css({
+                        display: "flex"
+                    })
+                    .html(ui.helper.html())
+                    .draggable({
+                        containment: "#plan",
+                        scroll: false,
+                        opacity: 1.5,
+                        helper: function (event) {
+                            return $(event.target).clone().css({
+                                width: $(event.target).width(),
+                                height: $(event.target).height()
+                            });
+                        }
+                    });
+                console.log(ui.draggable.attr("id"));
+            },
+        });
+    });
+
+    // Replace defaults with user's courses
+    function changeSideBarCourses() {
+        for (let i = 0; i < courses.length; i++) {
+            courses[i] = new course(courses[i].courseID, courses[i].units);
+        }
+        for (let i = 0; i < courses.length; i++) {
+            let newdragzone = document.createElement("div");
+            newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
+            newdragzone.id = courses[i].getName();
+            newdragzone.innerHTML = courses[i].getName();
+            document.getElementById("classlist").appendChild(newdragzone);
+        }
+    }
+
+    
+}
