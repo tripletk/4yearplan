@@ -1,15 +1,7 @@
-function moveSignup() {
-    document.querySelector(".modalBG").style.display = "flex";
+function openWindow(divName) {
+    document.querySelector(divName).style.display = "flex";
 }
 
-function xSignup() {
-    document.querySelector(".modalBG").style.display = "none";
-}
-
-function moveSignin() {
-    document.querySelector(".signBG").style.display = "flex";
-}
-
-function xSignin() {
-    document.querySelector(".signBG").style.display = "none";
+function closeWindow(divName) {
+    document.querySelector(divName).style.display = "none";
 }
