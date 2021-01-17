@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
+    <link href="./css/desktop.css" rel="stylesheet" />
+    <script src="./js/main.js" async> </script>
+
+    <title>Enter Requirements</title>
+</head>
+
+<body>
+    <!--Req Form Popup-->
+    <div class="bg"> 
+        <div class="cont1">
+            <div class='txt1'> <strong> enter your intended major and requirements! </strong> </div>
+            <form action="submit"> 
+                <input type="text" name = "major" placeholder = "major"> 
+                <input type="number" name = "recnum" placeholder = "total required credits/units">
+                <a href=""> <button class = "submit"> Submit </button> </a>   
+            </form>
+            <div class="close" onclick = 'return closeWindow(".bg")'> + </div>
+        </div>
+    </div>
+
+        <!--Add Course Popup-->
+    <div class="bg2"> 
+        <div class="cont2">
+            <div class='txt2'> <strong> enter course information </strong> </div>
+            <form action="submit"> 
+                <input class = "input2" type="text" name = "coursena" placeholder = "course name">
+                <input class = "input2" type="text" name = "coursenum" placeholder = "course code/reference number">
+                <input class = "input2" type="number" name = "recred" placeholder = "number of credits counted towards requirement">
+                <a href=""> <button class = "submit"> Submit </button> </a>   
+            </form>
+            <div class="close" onclick = 'return closeWindow(".bg2")'> + </div>
+        </div>
+    </div>
+
+</body>
+</html>
+        
