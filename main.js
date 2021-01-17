@@ -36,7 +36,9 @@ $( "div.dropzone" ).droppable({
     drop: function( event, ui ) {
       $( this )
         .find( ".dropstate" )
-            .show()
+            .css({
+                display: "flex"
+            })
             .html( "Dropped!" );
     }
 });
