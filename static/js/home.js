@@ -1,10 +1,13 @@
 class course {
-    constructor(coursename, credits) {
-        this.coursename = coursename;
+    constructor(courseID, courseTitle, credits, majorReq, preReq) {
+        this.courseID = courseID;
+        this.courseTitle = courseTitle,
         this.credits = credits;
+        this.majorReq = majorReq;
+        this.preReq = preReq;
     }
     getName() {
-        return this.coursename;
+        return this.courseID;
     }
     getCredits() {
         return this.credits;
@@ -29,7 +32,7 @@ plan = [
 ];
 
 for (let i = 0; i < courses.length; i++) {
-    courses[i] = new course(courses[i], 4);
+    courses[i] = new course(courses[i], "", 4, "", "");
 }
 
 for (let i = 0; i < seasons.length; i++) {

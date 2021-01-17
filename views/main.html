@@ -38,9 +38,10 @@
         let userSessionData = JSON.parse(sessionStorage.fouryearplanuser);
         console.log(userSessionData);
 
-        // function addCourse() {
-        // document.getElementById("demo").innerHTML = "Paragraph changed.";
-        // }
+        function refreshList() {
+            //document.getElementById("demo").innerHTML = "Paragraph changed.";
+            listCourse("UCSB");
+        }
     </script>
     <!-- This button will add course to user's courses -->
     <!-- <button onclick="addCourse()">Add Course</button>
@@ -60,6 +61,8 @@
                 <div id="logout" class="smallbutton"><a href="/sessionLogout">Log out</a></div>
 
                 <!-- Test Buttons -->
+                <div id="refresh list" class="smallbutton"><a href='javascript:refreshList()';>refresh list</a></div>
+
                 <div id="test" class="smallbutton"><a href='javascript:setUserCourses()';>test</a></div>
                 <div id="printplan" class="smallbutton"><a href='javascript:debugplan()';>print plan</a></div>
             </div>

@@ -170,25 +170,48 @@ app.get("/getUserCourses", (req, res) => {
   });
 });
 
-// app.get("/getSchoolCourses", (req, res) => {
-//   console.log("Client has requested server to get user's courses.");
-//   // user's doc in DB
-//   const userDoc = db.collection("schools").doc("UCSB").collection("Courses");
+// Fetches a user's courses from DB
+app.get("/getUserCourses", (req, res) => {
+  console.log("Client has requested server to get user's courses");
+  // user's doc in DB
 
-//   userDoc.get().then(function (querySnapshot) {
-//       let arrayToSend = [];
-//       querySnapshot.forEach(function (doc) {
-//         // doc.data() is never undefined for query doc snapshots
-//         console.log(doc.id, " => ", doc.data());
-//         arrayToSend.push(doc.data());
-//       });
-//       res.send(arrayToSend);
-//     })
-//     .catch(function (error) {
-//       console.log("Error getting documents: ", error);
-//     });
-// });
+  const userDoc = db.collection("users").doc(req.header('uid'));
 
+  userDoc.get().then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+        res.send(doc.data());
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+
+});
+
+
+
+// Lists Courses from DB for a school 
+app.get("/getSchoolCourses", (req, res) => {
+  console.log("Client has requested server to get user's courses.");
+  // user's doc in DB
+  const userDoc = db.collection("schools").doc(req.header('school')).collection("Courses");
+
+  userDoc.get().then(function (querySnapshot) {
+      let arrayToSend = [];
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        arrayToSend.push(doc.data());
+      });
+      res.send(arrayToSend);
+    })
+    .catch(function (error) {
+      console.log("Error getting documents: ", error);
+    });
+});
 
 
 app.listen(PORT, () => {
