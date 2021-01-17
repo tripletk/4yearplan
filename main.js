@@ -43,6 +43,7 @@ for (let i = 0; i < years.length; i++) {
         let newterm = document.createElement("div");
         newtermtab.className = "termtab";
         newtermlabel.className = "termlabel";
+        newtermclear.className = "termclear";
         newterm.className = "term";
         newtermlabel.innerHTML = terms[j];
         newtermclear.innerHTML = "clear courses for " + terms[j];
@@ -53,7 +54,10 @@ for (let i = 0; i < years.length; i++) {
         for (let k = 0; k < 4; k++) {
             let newdropzone = document.createElement("div");
             let newdropstate = document.createElement("div");
-            newdropzone.className = "dropzone";
+            newdropzone.classList.add("dropzone");
+            newdropzone.classList.add("year" + i);
+            newdropzone.classList.add("term" + j);
+            newdropzone.classList.add("course" + k);
             newdropstate.className = "dropstate";
             newdropstate.innerHTML = "placeholder";
             newdropzone.appendChild(newdropstate);
@@ -68,8 +72,8 @@ for (let i = 0; i < years.length; i++) {
 
 for (let i = 0; i < courses.length; i++) {
     let newdragzone = document.createElement("div");
-    newdragzone.className = "dragzone";
-    newdragzone.id = courses[i].getName();
+    newdragzone.classList.add("dragzone");
+    newdragzone.classList.add("course" + i);
     newdragzone.innerHTML = courses[i].getName();
     document.getElementById("classlist").appendChild(newdragzone);
 }
@@ -104,19 +108,40 @@ $( "div.dropzone" ).droppable({
                     });
                 }
             });
-        console.log(ui.draggable.attr("id"));
+        /*console.log($(this).attr("class"));
+        console.log(classNumFromClassList($(this).attr("class"), "year"));
+        console.log(classNumFromClassList($(this).attr("class"), "term"));
+        console.log(classNumFromClassList($(this).attr("class"), "course"));
+        console.log(classNumFromClassList(ui.draggable.attr("class"), "course"));*/
+        row = (classNumFromClassList($(this).attr("class"), "year") * terms.length) + classNumFromClassList($(this).attr("class"), "term");
+        col = classNumFromClassList($(this).attr("class"), "course");
+        plan[row][col] = courses[classNumFromClassList(ui.draggable.attr("class"), "course")];
+        document.getElementsByClassName("termclear")[row].style.display = "inline-block";
+        debugplan();
     },
 });
-debugplan();
+
 function debugplan() {
     for (let i = 0; i < 12; i++) {
         let row = "";
         for (let j = 0; j < 4; j++) {
-            row += plan[i][j] + " ";
+            if (plan[i][j] === "!")
+                row += plan[i][j] + " ";
+            else 
+                row += plan[i][j].getName() + " ";
         }
         row += "R" + (i + 1);
         console.log(row);
     }
+}
+
+// Gets number from class naming scheme [classname]## from a ClassList string
+// Returns -1 if the ClassList string doesn't include the classname
+function classNumFromClassList(fullstring, classname) {
+    if (fullstring.indexOf(classname) != -1)
+        return parseInt(fullstring.substring(fullstring.indexOf(classname), fullstring.indexOf(" ", fullstring.indexOf(classname))).substring(classname.length));
+    else
+        return -1;
 }
 
 function grow() {

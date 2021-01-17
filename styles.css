@@ -107,15 +107,11 @@ body {
     padding-left: 25px;
 }
 
-
-.term {
+.termtab {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    height: 18vh;
-    width: 98%;
-    border-radius: 30px;
-    margin: 10px 10px 10px 10px;
+    justify-self: center;
+    height: 6vh;
 }
 
 .termlabel {
@@ -123,7 +119,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 10%;
-    height: 5%;
+    height: 50%;
     background-color: white;
     border: 3px solid black;
     border-radius: 30px;
@@ -133,10 +129,18 @@ body {
     user-select: none;
 }
 
-.termtab {
+.termclear {
+    display: none;
+}
+
+.term {
     display: flex;
     align-items: center;
-    justify-self: center;
+    justify-content: space-evenly;
+    height: 18vh;
+    width: 98%;
+    border-radius: 30px;
+    margin: 10px 10px 10px 10px;
 }
 
 .dropzone {
