@@ -155,17 +155,18 @@ app.post("/recordNewCourse", (req, res) => {
 // Lists Courses from DB for a school 
 app.post("/listCourses", (req, res) => {
   console.log("Server requested to list courses from DB");
-  //const newCourse = req.body.course;
-  //console.log(newCourse);
-  const userUID = req.body.uid;
-  const schoolName = req.body.school;
 
+  const schoolName = req.body.school;
+  console.log(schoolName);
+
+  //not sure how this works
   console.log(schoolName);
   var docRef = db.collection("schools").doc(schoolName);
 
   docRef.get().then(function(doc) {
     if (doc.exists) {
         console.log("Document data:", doc.data());
+        return doc.data();
     } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
