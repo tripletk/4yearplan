@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>4 Year Planner | Home</title>
 
     <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
@@ -26,6 +26,11 @@
     <script src="./js/home.js" async> </script>
     <script src="./js/main.js" async> </script>
     <script src="./js/db.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./css/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./css/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./css/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./css/images/favicon/site.webmanifest">
 </head>
 
 <body>
@@ -64,7 +69,7 @@
                 <div id="refresh list" class="smallbutton"><a href='javascript:refreshList()';>refresh list</a></div>
 
                 <div id="test" class="smallbutton"><a href='javascript:setUserCourses()';>test</a></div>
-                <div id="printplan" class="smallbutton"><a href='javascript:debugplan()';>print plan</a></div>
+                <div id="printplan" class="smallbutton"><a href='javascript:printPlan()';>print plan</a></div>
             </div>
         </div>
         <div id="plan">
@@ -106,7 +111,7 @@
             <div class='txt1'> <strong> enter your intended major and requirements! </strong> </div>
             <form action="submit"> 
                 <input type="text" name = "major" placeholder = "major"> 
-                <input type="number" name = "recnum" placeholder = "total required credits/units">
+                <input type="number" name = "recnum" placeholder = "total required credits/units" min="0">
                 <a href=""> <button class = "submit"> Submit </button> </a>   
             </form>
             <div class="close" onclick = 'return closeWindow(".bg")'> + </div>
@@ -120,7 +125,7 @@
             <form id="newCourseForm" action="submit"> 
                 <input class = "input2" type="text" name = "coursena" placeholder = "course name">
                 <input class = "input2" type="text" name = "coursenum" placeholder = "course code/reference number">
-                <input class = "input2" type="number" name = "recred" placeholder = "number of credits counted towards requirement">
+                <input class = "input2" type="number" name = "recred" placeholder = "number of credits counted towards requirement" min="0">
                 <input class = "input2" type="text" name = "majorReq" placeholder = "Major or Non-Major">
                 <input class = "input2" type="text" name = "prereq" placeholder = "prerequisite courses separated by comma">
                 <a href=""> <button class = "submit" onclick='return submitNewCourse()'> Submit </button> </a>   
