@@ -177,4 +177,5 @@ body {
     font-size: 150%;
     user-select: none;
     cursor: grab;
+    white-space: pre-line;
 }

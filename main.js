@@ -80,6 +80,15 @@ for (let i = 0; i < courses.length; i++) {
     newdragzone.classList.add("dragzone");
     newdragzone.classList.add("course" + i);
     newdragzone.innerHTML = courses[i].getName();
+    newdragzone.addEventListener("mouseover", function() {
+        this.innerHTML = "click for more information";
+    });
+    newdragzone.addEventListener("mouseleave", function() {
+        this.innerHTML = courses[i].getName();
+    });
+    newdragzone.addEventListener("click", function() {
+        this.innerHTML = courses[i].getName() + "\nTitle: The title of the course\n" + "Major requirement: yes\n";
+    })
     document.getElementById("classlist").appendChild(newdragzone);
 }
 
@@ -89,6 +98,7 @@ $( "div.dragzone" ).draggable( {
     scroll: false,
     opacity: 1.5,
     helper: function(event) {
+        this.innerHTML = courses[classNumFromClassList(this.className, "course")].getName();
         return $(event.target).clone().css({
             width: $(event.target).width(),
             cursor: "grabbing"
@@ -167,6 +177,7 @@ function grow() {
 function ungrow() {
     this.style.transform = "scale(1)";
 }
+
 
 function clearterm() {
     for (let i = 0; i < 4; i++) {
