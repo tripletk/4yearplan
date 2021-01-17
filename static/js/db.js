@@ -3,7 +3,6 @@
 //get saved Plan from DB
 function retrieveUserPlan() {
     console.log("Retrieving Courses");
-    console.log("Listing Courses");
 
     const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
 
@@ -20,18 +19,21 @@ function retrieveUserPlan() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            courses = data;
+            savedplan = data.plan;
             console.log(courses);
 
             changePlan();
         });
 
-    // Replace defaults with user's courses
+    // Replace current plan with user's courses
     function changePlan() {
         let count = 0;
         for (let i = 0; i < 12; i++){
             for (let j = 0; j < 4; j++){
-                plan[i][j] = new course("Test","Test",5,true,"test");
+                if (savedplan[count] != "!")
+                    plan[i][j] = new course(savedplan[count].courseID,savedplan[count].courseTitle,savedplan[count].credits,
+                        savedplan[count].majorReq, savedplan[count].preReq);
+                update(i,j);
                 count++;
             }
         }
