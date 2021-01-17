@@ -107,8 +107,12 @@ for (let i = 0; i < courses.length; i++) {
     });
     // Getter functions needed here.
     newdragzone.addEventListener("click", function() {
-        this.innerHTML = courses[i].getName() + "\nTitle: The title of the course\n" + "Major requirement: yes\n";
-        this.style.textAlign = "left";
+        this.innerHTML = courses[i].getName() + "\nTitle: " + courses[i].getTitle() + "\nCredits: " + courses[i].getCredits() + "\nPreRequisites: " ;
+        for (let j = 0; j < courses[i].getPreReq().length-1; j++) {
+            this.innerHTML += courses[i].getPreReq()[j] + ", ";
+        }
+        this.innerHTML += courses[i].getPreReq()[courses[i].getPreReq().length-1];
+        this.style.textAlign = "left" ;
     })
     document.getElementById("classlist").appendChild(newdragzone);
 }
