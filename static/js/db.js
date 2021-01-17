@@ -45,3 +45,24 @@ function sharePlan() {
 function enterReqs() {
     console.log("Entering Reqs");
 }
+
+
+function listCourse(schoolName) {
+    console.log("Listing Courses");
+
+    const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
+
+    fetch("/listCourses", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "CSRF-Token": Cookies.get(
+                "XSRF-TOKEN"),
+        },
+        body: JSON.stringify({
+            uid: userUID,
+            school: schoolName,
+        })
+    })
+}
