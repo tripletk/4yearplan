@@ -2,11 +2,28 @@
 
 function retriveUserPlan() {
     console.log("Retrieving Courses");
+    
 }
-
-function saveUserPlan() {
+/*
+function saveUserPlan(newplan) {
     console.log("Saving User's Plan");
+    const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
+
+    fetch("/recordUserPlan", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "CSRF-Token": Cookies.get(
+                "XSRF-TOKEN"),
+        },
+        body: JSON.stringify({
+            uid: userUID,
+            plan: newplan
+        })
+    })
 }
+*/
 
 function submitNewCourse() {
     document

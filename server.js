@@ -151,6 +151,28 @@ app.post("/recordNewCourse", (req, res) => {
     });
 });
 
+/*
+// Adds new plan from main to DB
+app.post("/recordUserPlan", (req, res) => {
+  console.log("Server requested to add new course to DB");
+  const newPlan = req.body.plan;
+  console.log(newPlan);
+  const userUID = req.body.uid;
+  console.log(userUID);
+  db.collection("users").doc(userUID).update({
+      plan: admin.firestore.FieldValue.arrayUnion(newPlan)
+    })
+    .then(function () {
+      console.log("Successfully added new plan to user's courses!");
+    })
+    .catch(function (error) {
+      console.error("Error writing new plan: ", error);
+    });
+});
+*/
+
+
+
 // Fetches a user's courses from DB
 app.get("/getUserCourses", (req, res) => {
   console.log("Client has requested server to get user's courses.");
@@ -170,6 +192,7 @@ app.get("/getUserCourses", (req, res) => {
   });
 });
 
+/*
 // Fetches a user's courses from DB
 app.get("/getUserCourses", (req, res) => {
   console.log("Client has requested server to get user's courses");
@@ -190,6 +213,7 @@ app.get("/getUserCourses", (req, res) => {
 });
 
 });
+*/
 
 
 
