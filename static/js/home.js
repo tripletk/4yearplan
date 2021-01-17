@@ -137,7 +137,7 @@ function clearterm() {
         plan[parseInt(this.classList[1].substring(5))][i] = "!";
         update(parseInt(this.classList[1].substring(5)), i);
     }
-    debugplan();
+    //debugplan();
     this.style.display = "none";
 }
 
@@ -150,4 +150,8 @@ function update(row, column) {
     else {
         dropzones[(row * 4) + column].firstChild.style.display = "none";
     }
+}
+
+function printPlan() {
+    console.log(plan);
 }
