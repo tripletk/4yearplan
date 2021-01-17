@@ -22,7 +22,7 @@ function submitNewCourse() {
             addCourse(courseNum, courseName, majorReq, prereq, units);
             closeWindow(".bg2");
         });
-    
+
 }
 
 function addCourse(courseID, courseTitle, majorReq, preReq, units) {
@@ -84,6 +84,39 @@ function setUserCourses() {
             console.log(courses);
 
             changeSideBarCourses();
+            // $("div.dragzone").draggable({
+            //     appendTo: "body",
+            //     containment: "body",
+            //     scroll: false,
+            //     opacity: 1.5,
+            //     helper: function (event) {
+            //         return $(event.target).clone().css({
+            //             width: $(event.target).width()
+            //         });
+            //     }
+            // });
+            // $("div.dropzone").droppable({
+            //     drop: function (event, ui) {
+            //         $(this)
+            //             .find(".dropstate")
+            //             .css({
+            //                 display: "flex"
+            //             })
+            //             .html(ui.helper.html())
+            //             .draggable({
+            //                 containment: "#plan",
+            //                 scroll: false,
+            //                 opacity: 1.5,
+            //                 helper: function (event) {
+            //                     return $(event.target).clone().css({
+            //                         width: $(event.target).width(),
+            //                         height: $(event.target).height()
+            //                     });
+            //                 }
+            //             });
+            //         console.log(ui.draggable.attr("id"));
+            //     },
+            // });
             $("div.dragzone").draggable({
                 appendTo: "body",
                 containment: "body",
@@ -91,43 +124,48 @@ function setUserCourses() {
                 opacity: 1.5,
                 helper: function (event) {
                     return $(event.target).clone().css({
-                        width: $(event.target).width()
+                        width: $(event.target).width(),
+                        cursor: "grabbing"
                     });
                 }
             });
             $("div.dropzone").droppable({
                 drop: function (event, ui) {
-                    $(this)
-                        .find(".dropstate")
-                        .css({
-                            display: "flex"
-                        })
-                        .html(ui.helper.html())
-                        .draggable({
-                            containment: "#plan",
-                            scroll: false,
-                            opacity: 1.5,
-                            helper: function (event) {
-                                return $(event.target).clone().css({
-                                    width: $(event.target).width(),
-                                    height: $(event.target).height()
-                                });
-                            }
-                        });
-                    console.log(ui.draggable.attr("id"));
+                    row = (classNumFromClassList($(this).attr("class"), "year") * terms.length) + classNumFromClassList($(this).attr("class"), "term");
+                    col = classNumFromClassList($(this).attr("class"), "course");
+                    plan[row][col] = courses[classNumFromClassList(ui.draggable.attr("class"), "course")];
+                    document.getElementsByClassName("termclear")[row].style.display = "inline-block";
+                    //debugplan();
+                    update(row, col);
                 },
+                over: function (event, ui) {
+                    this.style.backgroundColor = "#cfcfcf";
+                },
+                out: function (event, ui) {
+                    this.style.backgroundColor = "#C4C4C4";
+                }
             });
         });
 
     // Replace defaults with user's courses
     function changeSideBarCourses() {
+        // for (let i = 0; i < courses.length; i++) {
+        //     courses[i] = new course(courses[i].courseID, courses[i].units);
+        // }
         for (let i = 0; i < courses.length; i++) {
-            courses[i] = new course(courses[i].courseID, courses[i].units);
+            courses[i] = new course(courses[i].courseID, courses[i].courseTitle, courses[i].units, courses[i].majorReq, courses[i].preReq);
         }
+        // for (let i = 0; i < courses.length; i++) {
+        //     let newdragzone = document.createElement("div");
+        //     newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
+        //     newdragzone.id = courses[i].getName();
+        //     newdragzone.innerHTML = courses[i].getName();
+        //     document.getElementById("classlist").appendChild(newdragzone);
+        // }
         for (let i = 0; i < courses.length; i++) {
             let newdragzone = document.createElement("div");
-            newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
-            newdragzone.id = courses[i].getName();
+            newdragzone.classList.add("dragzone");
+            newdragzone.classList.add("course" + i);
             newdragzone.innerHTML = courses[i].getName();
             document.getElementById("classlist").appendChild(newdragzone);
         }
@@ -142,22 +180,55 @@ function listCourse(schoolName) {
     const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
 
     fetch("/getSchoolCourses", {
-        method: "GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "CSRF-Token": Cookies.get(
-                "XSRF-TOKEN"),
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "CSRF-Token": Cookies.get(
+                    "XSRF-TOKEN"),
                 'school': schoolName,
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        courses = data;
-        console.log(courses);
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            courses = data;
+            console.log(courses);
 
-        changeSideBarCourses();
+            changeSideBarCourses();
+            // $("div.dragzone").draggable({
+            //     appendTo: "body",
+            //     containment: "body",
+            //     scroll: false,
+            //     opacity: 1.5,
+            //     helper: function (event) {
+            //         return $(event.target).clone().css({
+            //             width: $(event.target).width()
+            //         });
+            //     }
+            // });
+            // $("div.dropzone").droppable({
+            //     drop: function (event, ui) {
+            //         $(this)
+            //             .find(".dropstate")
+            //             .css({
+            //                 display: "flex"
+            //             })
+            //             .html(ui.helper.html())
+            //             .draggable({
+            //                 containment: "#plan",
+            //                 scroll: false,
+            //                 opacity: 1.5,
+            //                 helper: function (event) {
+            //                     return $(event.target).clone().css({
+            //                         width: $(event.target).width(),
+            //                         height: $(event.target).height()
+            //                     });
+            //                 }
+            //             });
+            //         console.log(ui.draggable.attr("id"));
+            //     },
+            // });
             $("div.dragzone").draggable({
                 appendTo: "body",
                 containment: "body",
@@ -165,55 +236,63 @@ function listCourse(schoolName) {
                 opacity: 1.5,
                 helper: function (event) {
                     return $(event.target).clone().css({
-                        width: $(event.target).width()
+                        width: $(event.target).width(),
+                        cursor: "grabbing"
                     });
                 }
             });
             $("div.dropzone").droppable({
                 drop: function (event, ui) {
-                    $(this)
-                        .find(".dropstate")
-                        .css({
-                            display: "flex"
-                        })
-                        .html(ui.helper.html())
-                        .draggable({
-                            containment: "#plan",
-                            scroll: false,
-                            opacity: 1.5,
-                            helper: function (event) {
-                                return $(event.target).clone().css({
-                                    width: $(event.target).width(),
-                                    height: $(event.target).height()
-                                });
-                            }
-                        });
-                    console.log(ui.draggable.attr("id"));
+                    row = (classNumFromClassList($(this).attr("class"), "year") * terms.length) + classNumFromClassList($(this).attr("class"), "term");
+                    col = classNumFromClassList($(this).attr("class"), "course");
+                    plan[row][col] = courses[classNumFromClassList(ui.draggable.attr("class"), "course")];
+                    document.getElementsByClassName("termclear")[row].style.display = "inline-block";
+                    //debugplan();
+                    update(row, col);
                 },
+                over: function( event, ui ) {
+                    this.style.backgroundColor = "#cfcfcf";
+                },
+                out: function( event, ui ) {
+                    this.style.backgroundColor = "#C4C4C4";
+                }
             });
         });
 
     // Replace defaults with user's courses
     function changeSideBarCourses() {
-        let coursesArr = [];
+        //let coursesArr = [];
 
+        // for (let i = 0; i < courses.length; i++) {
+        //     coursesArr.push(new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq,
+        //         courses[i].PreReq));
+
+        // }
         for (let i = 0; i < courses.length; i++) {
-            coursesArr.push(new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq,
-                courses[i].PreReq));
-
+            //courses[i] = new course(courses[i], "", 4, "", "");
+            
+            //coursesArr.push(new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq, courses[i].PreReq))
+        
+            courses[i] = new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq, courses[i].PreReq);
         }
-        for (let i = 0; i < coursesArr.length; i++) {
+        // for (let i = 0; i < coursesArr.length; i++) {
+        //     let newdragzone = document.createElement("div");
+        //     newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
+        //     newdragzone.id = coursesArr[i].getName();
+        //     newdragzone.innerHTML = coursesArr[i].getName();
+        //     document.getElementById("classlist").appendChild(newdragzone);
+        // }
+        for (let i = 0; i < courses.length; i++) {
             let newdragzone = document.createElement("div");
-            newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
-            newdragzone.id = coursesArr[i].getName();
-            newdragzone.innerHTML = coursesArr[i].getName();
+            newdragzone.classList.add("dragzone");
+            newdragzone.classList.add("course" + i);
+            newdragzone.innerHTML = courses[i].getName();
             document.getElementById("classlist").appendChild(newdragzone);
         }
-        
 
-        
+
+
     }
 
 
 }
-
