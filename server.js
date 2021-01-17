@@ -110,13 +110,20 @@ app.get("/sessionLogout", (req, res) => {
 });
 
 // DB Requests
+
+// Adds new user from signup to DB
 app.post("/recordNewUserInDB", (req, res) => {
   console.log("Server requested to add user to DB");
   console.log(req.body);
 
   db.collection("users").doc(req.body.id).set({
       email: req.body.email,
-      uid: req.body.id
+      uid: req.body.id,
+      name: req.body.name,
+      username: req.body.name,
+      college: req.body.college,
+      courses: [],
+      plan: []
     })
     .then(function () {
       console.log("Document successfully written!");
@@ -126,7 +133,23 @@ app.post("/recordNewUserInDB", (req, res) => {
     });
 });
 
-
+// Adds new courses from main to DB
+app.post("/recordNewCourse", (req, res) => {
+  console.log("Server requested to add new course to DB");
+  const newCourse = req.body.course;
+  console.log(newCourse);
+  const userUID = req.body.uid;
+  console.log(userUID);
+  db.collection("users").doc(userUID).update({
+    courses: admin.firestore.FieldValue.arrayUnion(newCourse)
+  })
+  .then(function () {
+    console.log("Successfully added new course to user's courses!");
+  })
+  .catch(function (error) {
+    console.error("Error writing new course: ", error);
+  });
+});
 
 
 
