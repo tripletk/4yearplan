@@ -11,16 +11,20 @@
 
     <!-- Merged From Kevin -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" /> 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <link href="./css/styles.css" rel="stylesheet">
+    <link href="./css/desktop.css" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <!-- <script type="module" src="js/auth.js"></script> -->
     <script src="./js/home.js" async> </script>
+    <script src="./js/main.js" async> </script>
     <script src="./js/db.js"></script>
 </head>
 
@@ -34,9 +38,9 @@
         let userSessionData = JSON.parse(sessionStorage.fouryearplanuser);
         console.log(userSessionData);
 
-        function addCourse() {
-        document.getElementById("demo").innerHTML = "Paragraph changed.";
-        }
+        // function addCourse() {
+        // document.getElementById("demo").innerHTML = "Paragraph changed.";
+        // }
     </script>
     <!-- This button will add course to user's courses -->
     <!-- <button onclick="addCourse()">Add Course</button>
@@ -49,12 +53,11 @@
         <div id="topbar">
             <div id="your-4-year-plan"><p>your 4 year plan!</p></div>
             <div id="smallbuttons">
-                <!-- <div id="export-plan" class="smallbutton"><p>export plan</p></div>
-                <div id="add-course" class="smallbutton"><p>add course</p></div>
-                <div id="enter-reqs" class="smallbutton"><p>enter reqs</p></div> -->
                 <div id="export-plan" class="smallbutton"><a href="javascript:exportPlan();">export plan</a></div>
-                <div id="add-course" class="smallbutton"><a href="javascript:addCourse(`math250`, `Calculus III`, true, [`math250`], 4);">add course</a></div>
-                <div id="enter-reqs" class="smallbutton"><a href='javascript:enterReqs()';>enter reqs</a></div>
+                <div id="add-course" class="smallbutton" onclick='return openWindow(".bg2")'>add course</div>
+                <div id="enter-reqs" class="smallbutton" onclick='return openWindow(".bg")'>enter reqs</div>
+
+                <!-- Test Buttons -->
                 <div id="test" class="smallbutton"><a href='javascript:setUserCourses()';>test</a></div>
                 <div id="printplan" class="smallbutton"><a href='javascript:debugplan()';>print plan</a></div>
             </div>
@@ -90,6 +93,35 @@
             <div class="season"></div>
         </div>
         <div id="classlist"><div id="drag-class"><p>drag class</p></div></div>
+    </div>
+
+    <!--Req Form Popup-->
+    <div class="bg"> 
+        <div class="cont1">
+            <div class='txt1'> <strong> enter your intended major and requirements! </strong> </div>
+            <form action="submit"> 
+                <input type="text" name = "major" placeholder = "major"> 
+                <input type="number" name = "recnum" placeholder = "total required credits/units">
+                <a href=""> <button class = "submit"> Submit </button> </a>   
+            </form>
+            <div class="close" onclick = 'return closeWindow(".bg")'> + </div>
+        </div>
+    </div>
+
+        <!--Add Course Popup-->
+    <div class="bg2"> 
+        <div class="cont2">
+            <div class='txt2'> <strong> enter course information </strong> </div>
+            <form id="newCourseForm" action="submit"> 
+                <input class = "input2" type="text" name = "coursena" placeholder = "course name">
+                <input class = "input2" type="text" name = "coursenum" placeholder = "course code/reference number">
+                <input class = "input2" type="number" name = "recred" placeholder = "number of credits counted towards requirement">
+                <input class = "input2" type="text" name = "majorReq" placeholder = "Major or Non-Major">
+                <input class = "input2" type="text" name = "prereq" placeholder = "prerequisite courses separated by comma">
+                <a href=""> <button class = "submit" onclick='return submitNewCourse()'> Submit </button> </a>   
+            </form>
+            <div class="close" onclick = 'return closeWindow(".bg2")'> + </div>
+        </div>
     </div>
 
     <a href="/sessionLogout">Log out</a>

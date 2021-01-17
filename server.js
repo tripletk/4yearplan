@@ -156,7 +156,7 @@ app.get("/getUserCourses", (req, res) => {
   console.log("Client has requested server to get user's courses.");
   // user's doc in DB
   const userDoc = db.collection("users").doc(req.header('uid'));
-  
+
   userDoc.get().then(function (doc) {
     if (doc.exists) {
       console.log("Document data:", doc.data());
@@ -169,6 +169,26 @@ app.get("/getUserCourses", (req, res) => {
     console.log("Error getting document:", error);
   });
 });
+
+// app.get("/getSchoolCourses", (req, res) => {
+//   console.log("Client has requested server to get user's courses.");
+//   // user's doc in DB
+//   const userDoc = db.collection("schools").doc("UCSB").collection("Courses");
+
+//   userDoc.get().then(function (querySnapshot) {
+//       let arrayToSend = [];
+//       querySnapshot.forEach(function (doc) {
+//         // doc.data() is never undefined for query doc snapshots
+//         console.log(doc.id, " => ", doc.data());
+//         arrayToSend.push(doc.data());
+//       });
+//       res.send(arrayToSend);
+//     })
+//     .catch(function (error) {
+//       console.log("Error getting documents: ", error);
+//     });
+// });
+
 
 
 app.listen(PORT, () => {

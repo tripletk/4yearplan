@@ -8,6 +8,23 @@ function saveUserPlan() {
     console.log("Saving User's Plan");
 }
 
+function submitNewCourse() {
+    document
+        .getElementById("newCourseForm")
+        .addEventListener("submit", (event) => {
+            event.preventDefault();
+            const courseName = event.target.coursena.value;
+            const courseNum = event.target.coursenum.value;
+            const units = event.target.recred.value;
+            const majorReq = event.target.majorReq.value;
+            const prereq = event.target.prereq.value.split(',');
+
+            addCourse(courseNum, courseName, majorReq, prereq, units);
+            closeWindow(".bg2");
+        });
+    
+}
+
 function addCourse(courseID, courseTitle, majorReq, preReq, units) {
     console.log("Adding Course");
 
@@ -51,56 +68,56 @@ function setUserCourses() {
 
     // First ask server to retrieve user's courses
     fetch("/getUserCourses", {
-        method: "GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "CSRF-Token": Cookies.get(
-                "XSRF-TOKEN"),
-            'uid': userUID
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        courses = data.courses;
-        console.log(courses);
-
-        changeSideBarCourses();
-        $("div.dragzone").draggable({
-            appendTo: "body",
-            containment: "body",
-            scroll: false,
-            opacity: 1.5,
-            helper: function (event) {
-                return $(event.target).clone().css({
-                    width: $(event.target).width()
-                });
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "CSRF-Token": Cookies.get(
+                    "XSRF-TOKEN"),
+                'uid': userUID
             }
-        });
-        $("div.dropzone").droppable({
-            drop: function (event, ui) {
-                $(this)
-                    .find(".dropstate")
-                    .css({
-                        display: "flex"
-                    })
-                    .html(ui.helper.html())
-                    .draggable({
-                        containment: "#plan",
-                        scroll: false,
-                        opacity: 1.5,
-                        helper: function (event) {
-                            return $(event.target).clone().css({
-                                width: $(event.target).width(),
-                                height: $(event.target).height()
-                            });
-                        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            courses = data.courses;
+            console.log(courses);
+
+            changeSideBarCourses();
+            $("div.dragzone").draggable({
+                appendTo: "body",
+                containment: "body",
+                scroll: false,
+                opacity: 1.5,
+                helper: function (event) {
+                    return $(event.target).clone().css({
+                        width: $(event.target).width()
                     });
-                console.log(ui.draggable.attr("id"));
-            },
+                }
+            });
+            $("div.dropzone").droppable({
+                drop: function (event, ui) {
+                    $(this)
+                        .find(".dropstate")
+                        .css({
+                            display: "flex"
+                        })
+                        .html(ui.helper.html())
+                        .draggable({
+                            containment: "#plan",
+                            scroll: false,
+                            opacity: 1.5,
+                            helper: function (event) {
+                                return $(event.target).clone().css({
+                                    width: $(event.target).width(),
+                                    height: $(event.target).height()
+                                });
+                            }
+                        });
+                    console.log(ui.draggable.attr("id"));
+                },
+            });
         });
-    });
 
     // Replace defaults with user's courses
     function changeSideBarCourses() {
@@ -116,5 +133,5 @@ function setUserCourses() {
         }
     }
 
-    
+
 }
