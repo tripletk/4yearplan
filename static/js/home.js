@@ -9,9 +9,19 @@ class course {
     getName() {
         return this.courseID;
     }
+    getTitle(){
+        return this.courseTitle;
+    }
     getCredits() {
         return this.credits;
     }
+    getMajorReq(){
+        return this.majorReq;
+    }
+    getPreReq(){
+        return this.preReq;
+    }
+
 }
 
 let years = document.getElementsByClassName("year");
@@ -148,9 +158,10 @@ function clearterm() {
         plan[parseInt(this.classList[1].substring(5))][i] = "!";
         update(parseInt(this.classList[1].substring(5)), i);
     }
-    //debugplan();
+    debugplan();
     this.style.display = "none";
 }
+
 
 function update(row, column) {
     let dropzones = document.getElementsByClassName("dropzone");
@@ -165,4 +176,30 @@ function update(row, column) {
 
 function printPlan() {
     console.log(plan);
+}
+
+function savePlan() {
+    //console.log(plan);
+    let modifiedPlan = [];
+    for (let i = 0; i < 12; i++){
+        for (let j = 0; j < 4; j++){
+            modifiedPlan.push(plan[i][j]);
+        }
+    }
+    saveUserPlan(modifiedPlan);
+}
+
+function retrievePlan() {
+    /*
+    let count = 0;
+    for (let i = 0; i < 12; i++){
+        for (let j = 0; j < 4; j++){
+            modifiedPlan.push(plan[i][j]);
+            plan[i][j] = new course();
+            count++;
+        }
+    }
+    */
+   retrieveUserPlan();
+
 }
