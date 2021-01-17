@@ -35,7 +35,8 @@
         console.log(userSessionData);
 
         function refreshList() {
-        document.getElementById("demo").innerHTML = "Paragraph changed.";
+            //document.getElementById("demo").innerHTML = "Paragraph changed.";
+            listCourse("UCSB");
         }
     </script>
     <!-- This button will add course to user's courses -->
@@ -55,13 +56,8 @@
                 <div id="export-plan" class="smallbutton"><a href="javascript:exportPlan();">export plan</a></div>
                 <div id="add-course" class="smallbutton"><a href="javascript:addCourse(`math250`, `Calculus III`, true, [`math250`], 4);">add course</a></div>
                 <div id="enter-reqs" class="smallbutton"><a href='javascript:enterReqs()';>enter reqs</a></div>
-<<<<<<< HEAD
                 <div id="refresh list" class="smallbutton"><a href='javascript:refreshList()';>refresh list</a></div>
 
-=======
-                <div id="test" class="smallbutton"><a href='javascript:setUserCourses()';>test</a></div>
-                <div id="printplan" class="smallbutton"><a href='javascript:debugplan()';>print plan</a></div>
->>>>>>> main
             </div>
         </div>
         <div id="plan">
