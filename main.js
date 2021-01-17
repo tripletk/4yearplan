@@ -63,15 +63,16 @@ for (let i = 0; i < years.length; i++) {
             newdropzone.appendChild(newdropstate);
             newterm.appendChild(newdropzone);
         }
-        let newtermclears = document.getElementsByClassName("termclear");
-        for (let k = 0; k < newtermclears.length; k++) {
-            newtermclears[k].classList.add("clear" + k);
-        }
         newtermtab.appendChild(newtermlabel);
         newtermtab.appendChild(newtermclear);
         years[i].appendChild(newtermtab);
         years[i].appendChild(newterm);
     }
+}
+
+let newtermclears = document.getElementsByClassName("termclear");
+for (let k = 0; k < newtermclears.length; k++) {
+    newtermclears[k].classList.add("clear" + k);
 }
 
 for (let i = 0; i < courses.length; i++) {
@@ -89,10 +90,12 @@ $( "div.dragzone" ).draggable( {
     opacity: 1.5,
     helper: function(event) {
         return $(event.target).clone().css({
-            width: $(event.target).width()
+            width: $(event.target).width(),
+            cursor: "grabbing"
         });
     }
 });
+/*
 $( "div.dropstate" ).draggable( {
     appendTo: "body",
     containment: "body",
@@ -104,7 +107,7 @@ $( "div.dropstate" ).draggable( {
             height: $(event.target).height()
         });
     }
-});
+});*/
 $( "div.dropzone" ).droppable({
     drop: function( event, ui ) {
         /*$( this )
@@ -125,6 +128,12 @@ $( "div.dropzone" ).droppable({
         debugplan();
         update(row, col);
     },
+    over: function( event, ui ) {
+        this.style.backgroundColor = "#cfcfcf";
+    },
+    out: function( event, ui ) {
+        this.style.backgroundColor = "#C4C4C4";
+    }
 });
 
 function debugplan() {
@@ -161,8 +170,8 @@ function ungrow() {
 
 function clearterm() {
     for (let i = 0; i < 4; i++) {
-        plan[parseInt(this.classList[1][5])][i] = "!";
-        update(parseInt(this.classList[1][5]), i);
+        plan[parseInt(this.classList[1].substring(5))][i] = "!";
+        update(parseInt(this.classList[1].substring(5)), i);
     }
     debugplan();
     this.style.display = "none";
@@ -170,6 +179,7 @@ function clearterm() {
 function update(row, column) {
     let dropzones = document.getElementsByClassName("dropzone");
     if (plan[row][column] !== "!") {
+        dropzones[(row * 4) + column].firstChild.innerHTML = plan[row][column].getName();
         dropzones[(row * 4) + column].firstChild.style.display = "flex";
     }
     else {
