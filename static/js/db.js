@@ -1,11 +1,67 @@
 // functions relating to DB actions on main page
 
-function retriveUserPlan() {
+//get saved Plan from DB
+function retrieveUserPlan() {
     console.log("Retrieving Courses");
+
+    const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
+
+    fetch("/getUserPlan", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "CSRF-Token": Cookies.get(
+                    "XSRF-TOKEN"),
+                'uid': userUID,
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            savedplan = data.plan;
+            console.log(courses);
+
+            changePlan();
+        });
+
+    // Replace current plan with user's courses
+    function changePlan() {
+        let count = 0;
+        for (let i = 0; i < 12; i++){
+            for (let j = 0; j < 4; j++){
+                if (savedplan[count] != "!")
+                    plan[i][j] = new course(savedplan[count].courseID,savedplan[count].courseTitle,savedplan[count].credits,
+                        savedplan[count].majorReq, savedplan[count].preReq);
+                update(i,j);
+                count++;
+            }
+        }
+
+    }
 }
 
-function saveUserPlan() {
+function saveUserPlan(newPlan) {
     console.log("Saving User's Plan");
+    
+    const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
+
+    fetch("/recordUserPlan", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "CSRF-Token": Cookies.get(
+                "XSRF-TOKEN"),
+            
+        },
+        body: JSON.stringify({
+            uid: userUID,
+            plan: newPlan
+        }),        
+    })
+
+    
 }
 
 function submitNewCourse() {
@@ -84,39 +140,7 @@ function setUserCourses() {
             console.log(courses);
 
             changeSideBarCourses();
-            // $("div.dragzone").draggable({
-            //     appendTo: "body",
-            //     containment: "body",
-            //     scroll: false,
-            //     opacity: 1.5,
-            //     helper: function (event) {
-            //         return $(event.target).clone().css({
-            //             width: $(event.target).width()
-            //         });
-            //     }
-            // });
-            // $("div.dropzone").droppable({
-            //     drop: function (event, ui) {
-            //         $(this)
-            //             .find(".dropstate")
-            //             .css({
-            //                 display: "flex"
-            //             })
-            //             .html(ui.helper.html())
-            //             .draggable({
-            //                 containment: "#plan",
-            //                 scroll: false,
-            //                 opacity: 1.5,
-            //                 helper: function (event) {
-            //                     return $(event.target).clone().css({
-            //                         width: $(event.target).width(),
-            //                         height: $(event.target).height()
-            //                     });
-            //                 }
-            //             });
-            //         console.log(ui.draggable.attr("id"));
-            //     },
-            // });
+            
             $("div.dragzone").draggable({
                 appendTo: "body",
                 containment: "body",
@@ -149,19 +173,11 @@ function setUserCourses() {
 
     // Replace defaults with user's courses
     function changeSideBarCourses() {
-        // for (let i = 0; i < courses.length; i++) {
-        //     courses[i] = new course(courses[i].courseID, courses[i].units);
-        // }
+
         for (let i = 0; i < courses.length; i++) {
             courses[i] = new course(courses[i].courseID, courses[i].courseTitle, courses[i].units, courses[i].majorReq, courses[i].preReq);
         }
-        // for (let i = 0; i < courses.length; i++) {
-        //     let newdragzone = document.createElement("div");
-        //     newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
-        //     newdragzone.id = courses[i].getName();
-        //     newdragzone.innerHTML = courses[i].getName();
-        //     document.getElementById("classlist").appendChild(newdragzone);
-        // }
+ 
         for (let i = 0; i < courses.length; i++) {
             let newdragzone = document.createElement("div");
             newdragzone.classList.add("dragzone");
@@ -196,39 +212,6 @@ function listCourse(schoolName) {
             console.log(courses);
 
             changeSideBarCourses();
-            // $("div.dragzone").draggable({
-            //     appendTo: "body",
-            //     containment: "body",
-            //     scroll: false,
-            //     opacity: 1.5,
-            //     helper: function (event) {
-            //         return $(event.target).clone().css({
-            //             width: $(event.target).width()
-            //         });
-            //     }
-            // });
-            // $("div.dropzone").droppable({
-            //     drop: function (event, ui) {
-            //         $(this)
-            //             .find(".dropstate")
-            //             .css({
-            //                 display: "flex"
-            //             })
-            //             .html(ui.helper.html())
-            //             .draggable({
-            //                 containment: "#plan",
-            //                 scroll: false,
-            //                 opacity: 1.5,
-            //                 helper: function (event) {
-            //                     return $(event.target).clone().css({
-            //                         width: $(event.target).width(),
-            //                         height: $(event.target).height()
-            //                     });
-            //                 }
-            //             });
-            //         console.log(ui.draggable.attr("id"));
-            //     },
-            // });
             $("div.dragzone").draggable({
                 appendTo: "body",
                 containment: "body",
@@ -261,27 +244,12 @@ function listCourse(schoolName) {
 
     // Replace defaults with user's courses
     function changeSideBarCourses() {
-        //let coursesArr = [];
-
-        // for (let i = 0; i < courses.length; i++) {
-        //     coursesArr.push(new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq,
-        //         courses[i].PreReq));
-
-        // }
+  
         for (let i = 0; i < courses.length; i++) {
-            //courses[i] = new course(courses[i], "", 4, "", "");
-            
-            //coursesArr.push(new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq, courses[i].PreReq))
-        
+
             courses[i] = new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq, courses[i].PreReq);
         }
-        // for (let i = 0; i < coursesArr.length; i++) {
-        //     let newdragzone = document.createElement("div");
-        //     newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
-        //     newdragzone.id = coursesArr[i].getName();
-        //     newdragzone.innerHTML = coursesArr[i].getName();
-        //     document.getElementById("classlist").appendChild(newdragzone);
-        // }
+
         for (let i = 0; i < courses.length; i++) {
             let newdragzone = document.createElement("div");
             newdragzone.classList.add("dragzone");

@@ -151,6 +151,49 @@ app.post("/recordNewCourse", (req, res) => {
     });
 });
 
+
+
+// Adds new plan from main to DB
+app.post("/recordUserPlan", (req, res) => {
+  console.log("Server requested to add new course to DB");
+  const newPlan = req.body.plan;
+  const userUID = req.body.uid;
+  console.log(userUID);
+  db.collection("users").doc(userUID).update({
+     plan: newPlan
+
+    })
+    .then(function () {
+      console.log("Successfully added new plan to user's courses!");
+    })
+    .catch(function (error) {
+      console.error("Error writing new plan: ", error);
+    });
+});
+
+//Gets user plan from DB 
+app.get("/getUserPlan", (req, res) => {
+  console.log("Client has requested server to get user's plan.");
+  // user's doc in DB
+  const userDoc = db.collection("users").doc(req.header('uid'));
+
+  userDoc.get().then(function (doc) {
+    if (doc.exists) {
+      console.log("Document data:", doc.data());
+      res.send(doc.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }).catch(function (error) {
+    console.log("Error getting document:", error);
+  });
+});
+
+
+
+
+
 // Fetches a user's courses from DB
 app.get("/getUserCourses", (req, res) => {
   console.log("Client has requested server to get user's courses.");
@@ -168,27 +211,6 @@ app.get("/getUserCourses", (req, res) => {
   }).catch(function (error) {
     console.log("Error getting document:", error);
   });
-});
-
-// Fetches a user's courses from DB
-app.get("/getUserCourses", (req, res) => {
-  console.log("Client has requested server to get user's courses");
-  // user's doc in DB
-
-  const userDoc = db.collection("users").doc(req.header('uid'));
-
-  userDoc.get().then(function(doc) {
-    if (doc.exists) {
-        console.log("Document data:", doc.data());
-        res.send(doc.data());
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-});
-
 });
 
 

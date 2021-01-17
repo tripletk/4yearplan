@@ -9,14 +9,25 @@ class course {
     getName() {
         return this.courseID;
     }
+    getTitle(){
+        return this.courseTitle;
+    }
     getCredits() {
         return this.credits;
     }
+    getMajorReq(){
+        return this.majorReq;
+    }
+    getPreReq(){
+        return this.preReq;
+    }
+
 }
 
 let years = document.getElementsByClassName("year");
     terms = ["fall", "winter", "spring"];
 var courses = ["CS 1", "CS 2", "CS 3", "CS 4", "MATH 1", "MATH 2", "MATH 3", "MATH 4", "PHYS 1", "PHYS 2", "PHYS 3", "PHYS 4"];
+
 plan = [
     ["!", "!", "!", "!"],
     ["!", "!", "!", "!"],
@@ -85,6 +96,25 @@ for (let i = 0; i < courses.length; i++) {
     newdragzone.classList.add("dragzone");
     newdragzone.classList.add("course" + i);
     newdragzone.innerHTML = courses[i].getName();
+    newdragzone.addEventListener("mouseover", function() {
+        this.innerHTML = "click for more information";
+        this.style.fontSize = "1vw";
+        this.style.textAlign = "center";
+    });
+    newdragzone.addEventListener("mouseleave", function() {
+        this.innerHTML = courses[i].getName();
+        this.style.fontSize = "2vw";
+        this.style.textAlign = "center";
+    });
+    // Getter functions needed here.
+    newdragzone.addEventListener("click", function() {
+        this.innerHTML = courses[i].getName() + "\nTitle: " + courses[i].getTitle() + "\nCredits: " + courses[i].getCredits() + "\nPreRequisites: " ;
+        for (let j = 0; j < courses[i].getPreReq().length-1; j++) {
+            this.innerHTML += courses[i].getPreReq()[j] + ", ";
+        }
+        this.innerHTML += courses[i].getPreReq()[courses[i].getPreReq().length-1];
+        this.style.textAlign = "left" ;
+    })
     document.getElementById("classlist").appendChild(newdragzone);
 }
 
@@ -94,6 +124,9 @@ $("div.dragzone").draggable({
     scroll: false,
     opacity: 1.5,
     helper: function (event) {
+        this.innerHTML = courses[classNumFromClassList(this.className, "course")].getName();
+        this.style.fontSize = "2vw";
+        this.style.textAlign = "center";
         return $(event.target).clone().css({
             width: $(event.target).width(),
             cursor: "grabbing"
@@ -137,9 +170,10 @@ function clearterm() {
         plan[parseInt(this.classList[1].substring(5))][i] = "!";
         update(parseInt(this.classList[1].substring(5)), i);
     }
-    //debugplan();
+    debugplan();
     this.style.display = "none";
 }
+
 
 function update(row, column) {
     let dropzones = document.getElementsByClassName("dropzone");
@@ -154,4 +188,19 @@ function update(row, column) {
 
 function printPlan() {
     console.log(plan);
+}
+
+function savePlan() {
+    let modifiedPlan = [];
+    for (let i = 0; i < 12; i++){
+        for (let j = 0; j < 4; j++){
+            modifiedPlan.push(plan[i][j]);
+        }
+    }
+    saveUserPlan(modifiedPlan);
+}
+
+function retrievePlan() {
+   retrieveUserPlan();
+
 }
