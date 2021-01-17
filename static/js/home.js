@@ -179,7 +179,6 @@ function printPlan() {
 }
 
 function savePlan() {
-    //console.log(plan);
     let modifiedPlan = [];
     for (let i = 0; i < 12; i++){
         for (let j = 0; j < 4; j++){
@@ -190,16 +189,6 @@ function savePlan() {
 }
 
 function retrievePlan() {
-    /*
-    let count = 0;
-    for (let i = 0; i < 12; i++){
-        for (let j = 0; j < 4; j++){
-            modifiedPlan.push(plan[i][j]);
-            plan[i][j] = new course();
-            count++;
-        }
-    }
-    */
    retrieveUserPlan();
 
 }

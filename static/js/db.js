@@ -140,39 +140,7 @@ function setUserCourses() {
             console.log(courses);
 
             changeSideBarCourses();
-            // $("div.dragzone").draggable({
-            //     appendTo: "body",
-            //     containment: "body",
-            //     scroll: false,
-            //     opacity: 1.5,
-            //     helper: function (event) {
-            //         return $(event.target).clone().css({
-            //             width: $(event.target).width()
-            //         });
-            //     }
-            // });
-            // $("div.dropzone").droppable({
-            //     drop: function (event, ui) {
-            //         $(this)
-            //             .find(".dropstate")
-            //             .css({
-            //                 display: "flex"
-            //             })
-            //             .html(ui.helper.html())
-            //             .draggable({
-            //                 containment: "#plan",
-            //                 scroll: false,
-            //                 opacity: 1.5,
-            //                 helper: function (event) {
-            //                     return $(event.target).clone().css({
-            //                         width: $(event.target).width(),
-            //                         height: $(event.target).height()
-            //                     });
-            //                 }
-            //             });
-            //         console.log(ui.draggable.attr("id"));
-            //     },
-            // });
+            
             $("div.dragzone").draggable({
                 appendTo: "body",
                 containment: "body",
@@ -205,19 +173,11 @@ function setUserCourses() {
 
     // Replace defaults with user's courses
     function changeSideBarCourses() {
-        // for (let i = 0; i < courses.length; i++) {
-        //     courses[i] = new course(courses[i].courseID, courses[i].units);
-        // }
+
         for (let i = 0; i < courses.length; i++) {
             courses[i] = new course(courses[i].courseID, courses[i].courseTitle, courses[i].units, courses[i].majorReq, courses[i].preReq);
         }
-        // for (let i = 0; i < courses.length; i++) {
-        //     let newdragzone = document.createElement("div");
-        //     newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
-        //     newdragzone.id = courses[i].getName();
-        //     newdragzone.innerHTML = courses[i].getName();
-        //     document.getElementById("classlist").appendChild(newdragzone);
-        // }
+ 
         for (let i = 0; i < courses.length; i++) {
             let newdragzone = document.createElement("div");
             newdragzone.classList.add("dragzone");
@@ -286,19 +246,10 @@ function listCourse(schoolName) {
     function changeSideBarCourses() {
   
         for (let i = 0; i < courses.length; i++) {
-            //courses[i] = new course(courses[i], "", 4, "", "");
-            
-            //coursesArr.push(new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq, courses[i].PreReq))
-        
+
             courses[i] = new course(courses[i].CourseID, courses[i].CourseTitle, courses[i].Units, courses[i].MajorReq, courses[i].PreReq);
         }
-        // for (let i = 0; i < coursesArr.length; i++) {
-        //     let newdragzone = document.createElement("div");
-        //     newdragzone.className = "dragzone ui-draggable ui-draggable-handle";
-        //     newdragzone.id = coursesArr[i].getName();
-        //     newdragzone.innerHTML = coursesArr[i].getName();
-        //     document.getElementById("classlist").appendChild(newdragzone);
-        // }
+
         for (let i = 0; i < courses.length; i++) {
             let newdragzone = document.createElement("div");
             newdragzone.classList.add("dragzone");

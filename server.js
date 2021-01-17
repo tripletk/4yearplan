@@ -213,29 +213,6 @@ app.get("/getUserCourses", (req, res) => {
   });
 });
 
-/*
-// Fetches a user's courses from DB
-app.get("/getUserCourses", (req, res) => {
-  console.log("Client has requested server to get user's courses");
-  // user's doc in DB
-
-  const userDoc = db.collection("users").doc(req.header('uid'));
-
-  userDoc.get().then(function(doc) {
-    if (doc.exists) {
-        console.log("Document data:", doc.data());
-        res.send(doc.data());
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-});
-
-});
-*/
-
 
 
 // Lists Courses from DB for a school 
