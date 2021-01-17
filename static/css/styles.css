@@ -160,6 +160,8 @@ body {
     border-radius: 5px;
     font-size: 2vw;
     user-select: none;
+    text-align: center;
+    white-space: pre-line;
 }
 
 .dragzone {

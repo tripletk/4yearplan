@@ -59,10 +59,11 @@ for (let i = 0; i < years.length; i++) {
         let newterm = document.createElement("div");
         newtermtab.className = "termtab";
         newtermlabel.className = "termlabel";
-        newtermclear.className = "termclear";
+        newtermclear.classList.add("termclear");
+        newtermclear.classList.add("state-no-edit");
         newterm.className = "term";
         newtermlabel.innerHTML = terms[j];
-        newtermclear.innerHTML = "clear courses for " + terms[j];
+        newtermclear.innerHTML = "edit courses for " + terms[j];
         newtermclear.style.fontWeight = "500";
         newtermclear.addEventListener("mouseover", grow);
         newtermclear.addEventListener("mouseleave", ungrow);
@@ -166,14 +167,43 @@ function ungrow() {
 }
 
 function clearterm() {
-    for (let i = 0; i < 4; i++) {
-        plan[parseInt(this.classList[1].substring(5))][i] = "!";
-        update(parseInt(this.classList[1].substring(5)), i);
+    let row = parseInt(this.classList[2].substring(5));
+    startPos = row * 4;
+    if (this.classList[1] === "state-no-edit") {
+        for (let i = startPos; i < (startPos + 4); i++) {
+            document.getElementsByClassName("dropzone")[i].firstChild.addEventListener("click", planremove);
+            document.getElementsByClassName("dropzone")[i].firstChild.innerHTML += "\nclick to delete";
+        }
+        this.innerHTML = "stop editing ";
+        this.classList.replace("state-no-edit", "state-edit");
     }
-    debugplan();
-    this.style.display = "none";
+    else if (this.classList[1] === "state-edit") {
+        for (let i = startPos; i < (startPos + 4); i++) {
+            document.getElementsByClassName("dropzone")[i].firstChild.removeEventListener("click", planremove);
+            let inner = document.getElementsByClassName("dropzone")[i].firstChild.innerHTML;
+            document.getElementsByClassName("dropzone")[i].firstChild.innerHTML = inner.substring(0, document.getElementsByClassName("dropzone")[i].firstChild.innerHTML.indexOf("\nclick to delete"));
+        }
+        console.log(terms.length);
+        this.innerHTML = "edit courses for " + terms[(parseInt(this.classList[2].substring(5)) % terms.length)];
+        this.classList.replace("state-edit", "state-no-edit");
+        this.style.display = "none";
+        for (let i = 0; i < 4; i++) {
+            if (plan[row][i] !== "!") {
+                this.style.display = "inline-block";
+            }
+        }
+    }
 }
 
+function planremove() {
+    let year = classNumFromClassList(this.parentNode.className, "year");
+        term = classNumFromClassList(this.parentNode.className, "term");
+        thecourse = classNumFromClassList(this.parentNode.className, "course");
+        row = (year * terms.length) + term;
+    //alert(row + ", " + thecourse);
+    plan[row][thecourse] = "!";
+    update(row, thecourse);
+}
 
 function update(row, column) {
     let dropzones = document.getElementsByClassName("dropzone");
