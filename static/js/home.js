@@ -9,9 +9,19 @@ class course {
     getName() {
         return this.courseID;
     }
+    getTitle(){
+        return this.courseTitle;
+    }
     getCredits() {
         return this.credits;
     }
+    getMajorReq(){
+        return this.majorReq;
+    }
+    getPreReq(){
+        return this.preReq;
+    }
+
 }
 
 let years = document.getElementsByClassName("year");
