@@ -156,7 +156,7 @@ app.get("/getUserCourses", (req, res) => {
   console.log("Client has requested server to get user's courses.");
   // user's doc in DB
   const userDoc = db.collection("users").doc(req.header('uid'));
-  
+
   userDoc.get().then(function (doc) {
     if (doc.exists) {
       console.log("Document data:", doc.data());
@@ -212,7 +212,6 @@ app.get("/getSchoolCourses", (req, res) => {
       console.log("Error getting documents: ", error);
     });
 });
-
 
 
 app.listen(PORT, () => {
