@@ -1,5 +1,7 @@
 // functions relating to DB actions on main page
 
+const { response } = require("express");
+
 function retriveUserPlan() {
     console.log("Retrieving Courses");
 }
@@ -46,6 +48,22 @@ function enterReqs() {
     console.log("Entering Reqs");
 }
 
+function setUserCourses() {
+    const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
+    
+    fetch("/getUserCourses", {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "CSRF-Token": Cookies.get(
+                "XSRF-TOKEN"),
+            uid: userUID
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
 
 function listCourse(schoolName) {
     console.log("Listing Courses");
@@ -53,7 +71,7 @@ function listCourse(schoolName) {
     const userUID = JSON.parse(sessionStorage.fouryearplanuser).uid;
 
     fetch("/listCourses", {
-        method: "POST",
+        method: "GET",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",

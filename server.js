@@ -152,21 +152,18 @@ app.post("/recordNewCourse", (req, res) => {
 });
 
 
-// Lists Courses from DB for a school 
-app.post("/listCourses", (req, res) => {
-  console.log("Server requested to list courses from DB");
 
-  const schoolName = req.body.school;
-  console.log(schoolName);
+// Fetches a user's courses from DB
+app.get("/getUserCourses", (req, res) => {
+  console.log("Client has requested server to get user's courses");
+  // user's doc in DB
 
-  //not sure how this works
-  console.log(schoolName);
-  var docRef = db.collection("schools").doc(schoolName);
+  const userDoc = db.collection("users").doc(req.header('uid'));
 
-  docRef.get().then(function(doc) {
+  userDoc.get().then(function(doc) {
     if (doc.exists) {
         console.log("Document data:", doc.data());
-        return doc.data();
+        res.send(doc.data());
     } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -176,6 +173,35 @@ app.post("/listCourses", (req, res) => {
 });
 
 });
+
+
+
+// Lists Courses from DB for a school 
+app.get("/listCourses", (req, res) => {
+  console.log("Client has requested server to list courses for a school from DB");
+
+  const schoolName = req.body.school;
+
+  //not sure how this works
+  console.log(schoolName);
+  var docRef = db.collection("schools").doc(schoolName);
+
+  docRef.get().then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+        res.send(doc.data());
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+
+});
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
