@@ -83,4 +83,7 @@ function listCourse(schoolName) {
             school: schoolName,
         })
     })
+
+    .then(response => response.json())
+    .then(data => console.log(data));
 }
