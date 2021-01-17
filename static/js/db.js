@@ -1,7 +1,5 @@
 // functions relating to DB actions on main page
 
-const { response } = require("express");
-
 function retriveUserPlan() {
     console.log("Retrieving Courses");
 }
