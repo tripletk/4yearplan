@@ -18,8 +18,8 @@
         <div class = 'stampimg'> 
         <div class = 'text1'> <strong>  4 year planner </strong> </div>
         <div class = 'text2'> Organize your <br> college plans <br> ahead of time </div>
-        <button class = 'start' onclick = 'return moveSignup()'> Start Now </button>
-        <button class='signin' onclick="return moveSignin()"> Sign In </button>
+        <button class = 'start' onclick = 'return openWindow(".modalBG")'> Start Now </button>
+        <button class='signin' onclick='return openWindow(".signBG")'> Sign In </button>
 
     </div>
 
@@ -36,7 +36,7 @@
 
                 <a href=""> <button class = "submit"> Sign Up </button> </a>   
             </form>
-            <div class="close" onclick = 'return xSignup()'> + </div>
+            <div class="close" onclick = 'return closeWindow(".modalBG")'> + </div>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
                 <a href=" "> <button class = "submit"> Sign In </button></a>
             </form>
         </div>
-        <div class = "closeIn" onclick = "return xSignin()"> + </div>
+        <div class = "closeIn" onclick = 'return closeWindow(".signBG")'> + </div>
     </div>
 
 </body>
