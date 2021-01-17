@@ -63,10 +63,15 @@
             <div id="smallbuttons">
                 <div id="add-course" class="smallbutton" onclick='return openWindow(".bg2")'>add course</div>
                 <div id="enter-reqs" class="smallbutton" onclick='return openWindow(".bg")'>enter reqs</div>
-                <div id="load college courses" class="smallbutton"><a href='javascript:refreshList()';>load college courses</a></div>
+                <!-- <div id="load college courses" class="smallbutton"><a href='javascript:refreshList()';>load college courses</a></div>
                 <div id="load custom courses" class="smallbutton"><a href='javascript:setUserCourses()';>load custom courses</a></div>
                 <div id="save plan" class="smallbutton"><a href='javascript:savePlan()';>save plan</a></div>
-                <div id="load plan" class="smallbutton"><a href='javascript:retrievePlan()';>load plan</a></div>
+                <div id="load plan" class="smallbutton"><a href='javascript:retrievePlan()';>load plan</a></div> -->
+
+                <div id="load college courses" class="smallbutton" onclick='return refreshList()'>load college courses</div>
+                <div id="load custom courses" class="smallbutton" onclick='return setUserCourses()'>load custom courses</div>
+                <div id="save plan" class="smallbutton" onclick='return savePlan()'>save plan</div>
+                <div id="load plan" class="smallbutton" onclick='return retrievePlan()'>load plan</div>
                 <div id="logout" class="smallbutton"><a href="/sessionLogout">Log out</a></div>
 
                 <!-- Not Yet Working Buttons
