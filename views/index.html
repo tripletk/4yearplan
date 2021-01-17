@@ -126,6 +126,10 @@
                             const login = event.target.email.value;
                             const password = event.target.pw.value;
 
+                            const name = event.target.name.value;
+                            const username = event.target.userN.value;
+                            const college = event.target.college.value;
+
                             firebase
                                 .auth()
                                 .createUserWithEmailAndPassword(login, password)
@@ -153,7 +157,10 @@
                                             method: "POST",
                                             body: JSON.stringify({
                                                 email: login,
-                                                id: user.uid
+                                                id: user.uid,
+                                                name: name,
+                                                username: username,
+                                                college: college
                                             }),
                                         });
                                         return fetch("/sessionLogin", {
