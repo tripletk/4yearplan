@@ -63,6 +63,10 @@ for (let i = 0; i < years.length; i++) {
             newdropzone.appendChild(newdropstate);
             newterm.appendChild(newdropzone);
         }
+        let newtermclears = document.getElementsByClassName("termclear");
+        for (let k = 0; k < newtermclears.length; k++) {
+            newtermclears[k].classList.add("clear" + k);
+        }
         newtermtab.appendChild(newtermlabel);
         newtermtab.appendChild(newtermclear);
         years[i].appendChild(newtermtab);
@@ -89,25 +93,26 @@ $( "div.dragzone" ).draggable( {
         });
     }
 });
+$( "div.dropstate" ).draggable( {
+    appendTo: "body",
+    containment: "body",
+    scroll: false,
+    opacity: 1.5,
+    helper: function(event) {
+        return $(event.target).clone().css({
+            width: $(event.target).width(),
+            height: $(event.target).height()
+        });
+    }
+});
 $( "div.dropzone" ).droppable({
     drop: function( event, ui ) {
-        $( this )
+        /*$( this )
         .find( ".dropstate" )
             .css({
                 display: "flex"
             })
-            .html( ui.helper.html() )
-            .draggable( {
-                containment: "#plan",
-                scroll: false,
-                opacity: 1.5,
-                helper: function(event) {
-                    return $(event.target).clone().css({
-                        width: $(event.target).width(),
-                        height: $(event.target).height()
-                    });
-                }
-            });
+            .html( ui.helper.html() );*/
         /*console.log($(this).attr("class"));
         console.log(classNumFromClassList($(this).attr("class"), "year"));
         console.log(classNumFromClassList($(this).attr("class"), "term"));
@@ -118,6 +123,7 @@ $( "div.dropzone" ).droppable({
         plan[row][col] = courses[classNumFromClassList(ui.draggable.attr("class"), "course")];
         document.getElementsByClassName("termclear")[row].style.display = "inline-block";
         debugplan();
+        update(row, col);
     },
 });
 
@@ -133,6 +139,7 @@ function debugplan() {
         row += "R" + (i + 1);
         console.log(row);
     }
+    console.log("____________________");
 }
 
 // Gets number from class naming scheme [classname]## from a ClassList string
@@ -153,5 +160,19 @@ function ungrow() {
 }
 
 function clearterm() {
-
+    for (let i = 0; i < 4; i++) {
+        plan[parseInt(this.classList[1][5])][i] = "!";
+        update(parseInt(this.classList[1][5]), i);
+    }
+    debugplan();
+    this.style.display = "none";
+}
+function update(row, column) {
+    let dropzones = document.getElementsByClassName("dropzone");
+    if (plan[row][column] !== "!") {
+        dropzones[(row * 4) + column].firstChild.style.display = "flex";
+    }
+    else {
+        dropzones[(row * 4) + column].firstChild.style.display = "none";
+    }
 }
