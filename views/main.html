@@ -23,6 +23,10 @@
         console.log(sessionStorage.fouryearplanuser);
         let userSessionData = JSON.parse(sessionStorage.fouryearplanuser);
         console.log(userSessionData);
+
+        function addCourse() {
+        document.getElementById("demo").innerHTML = "Paragraph changed.";
+        }
     </script>
     <!-- This button will add course to user's courses -->
     <button onclick="addCourse()">Add Course</button>
@@ -32,6 +36,8 @@
     <button onclick="enterReqs()">Enter Reqs</button>
 
     <h1>Year 1</h1>
+
+    <p id="demo"></p>
 
     <h1>Year 2</h1>
 
