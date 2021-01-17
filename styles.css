@@ -51,6 +51,11 @@ body {
     overflow-x: hidden;
 }
 
+.year {
+    display: flex;
+    flex-direction: column;
+}
+
 #classlist {
     display: flex;
     flex-direction: column;
@@ -95,25 +100,25 @@ body {
     color: #FFBF69;
     font-size: 2vw;
     font-weight: 600;
-    max-height: 12vh;
-    width: 49%;
+    height: 6vh;
+    width: 47.5%;
     border-bottom: 7px solid #FF9F1C;
     user-select: none;
-    padding-left: 20px;
+    padding-left: 25px;
 }
 
 
-.season {
+.term {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    height: 20%;
+    height: 18vh;
     width: 98%;
     border-radius: 30px;
     margin: 10px 10px 10px 10px;
 }
 
-.sznlabel {
+.termlabel {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,10 +127,16 @@ body {
     background-color: white;
     border: 3px solid black;
     border-radius: 30px;
-    margin: 10px 10px 10px 20px;
+    margin: 0px 17px 0px 17px;
     font-size: 1.3vw;
     font-weight: 600;
     user-select: none;
+}
+
+.termtab {
+    display: flex;
+    align-items: center;
+    justify-self: center;
 }
 
 .dropzone {
@@ -155,7 +166,7 @@ body {
     width: 80%;
     opacity: 50%;
     background-color: #ffbd60;
-    margin-top: 30px;
+    margin: 15px 0px 15px 0px;
     border-radius: 5px;
     font-size: 150%;
     user-select: none;
