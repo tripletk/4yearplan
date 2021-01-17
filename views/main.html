@@ -53,9 +53,11 @@
         <div id="topbar">
             <div id="your-4-year-plan"><p>your 4 year plan!</p></div>
             <div id="smallbuttons">
-                <div id="export-plan" class="smallbutton"><a href="javascript:exportPlan();">export plan</a></div>
+                
                 <div id="add-course" class="smallbutton" onclick='return openWindow(".bg2")'>add course</div>
                 <div id="enter-reqs" class="smallbutton" onclick='return openWindow(".bg")'>enter reqs</div>
+                <div id="export-plan" class="smallbutton"><a href="javascript:exportPlan();">export plan</a></div>
+                <div id="logout" class="smallbutton"><a href="/sessionLogout">Log out</a></div>
 
                 <!-- Test Buttons -->
                 <div id="test" class="smallbutton"><a href='javascript:setUserCourses()';>test</a></div>
@@ -124,7 +126,6 @@
         </div>
     </div>
 
-    <a href="/sessionLogout">Log out</a>
 </body>
 
 </html>
